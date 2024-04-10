@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 
 # Sets the directory_path to the current directory where the script is located
@@ -21,6 +19,9 @@ def rename_files_in_directory(directory_path):
             # List files and sort them to maintain a sequential order
             files = sorted(os.listdir(item_path), key=lambda x: x.lower())
             current_count = 1  # Initialize counter for each folder
+            # Determine the number of digits for zero padding
+            max_count = len(files)
+            padding_length = len(str(max_count))
             
             for file_name in files:
                 file_path = os.path.join(item_path, file_name)
@@ -28,8 +29,8 @@ def rename_files_in_directory(directory_path):
                 if os.path.isfile(file_path) and file_name not in ignore_list:
                     # Extract file extension
                     file_extension = os.path.splitext(file_name)[1]
-                    # New file name: folder name + counter + file extension
-                    new_file_name = f"{item_name}-{current_count}{file_extension}"
+                    # New file name: folder name + zero-padded counter + file extension
+                    new_file_name = f"{item_name}-{str(current_count).zfill(padding_length)}{file_extension}"
                     new_file_path = os.path.join(item_path, new_file_name)
                     # Rename the file
                     os.rename(file_path, new_file_path)
